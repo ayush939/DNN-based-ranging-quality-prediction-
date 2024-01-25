@@ -1,0 +1,68 @@
+{
+    "name": "CIR_CNN",
+    "n_gpu": 1,
+    "mode": "reg",
+    "dataset": "local",
+    
+    "preprocess": {
+        "scale": false,
+        "split_type": "gen",
+        "sampling": false,
+        "batch_size": 128,
+        "shuffle": false,
+        "split_ratio": 0.2,
+        "num_workers": 2
+    },
+    
+    "arch": {
+        "type": "ResidualCNN",
+        "args": {
+            "mode": "reg",
+            "num_classes": 1
+        }
+    },
+
+    "optimizer": {
+        "type": "Adam",
+        "args":{
+            "lr": 3e-4,
+            "weight_decay":0,
+            "amsgrad": true
+        }
+    },
+
+    "optimizer1": {
+        "type": "SGD",
+        "args":{
+            "lr": 3e-4,
+            "weight_decay":0,
+            "momentum": 0.9,
+            "nesterov":true
+        }
+    },
+
+    "loss": ["binary_cross_entropy", "mae_loss"],  
+    "metrics": [
+        "mae"
+    ],
+    "lr_scheduler": {
+        "type": "ExponentialLR",
+        "args": {
+            "last_epoch": -1,
+            "gamma": 1
+        }
+    },
+    "trainer": {
+        "epochs": 200,
+
+        "save_dir": "saved/",
+        "save_period": 50,
+        "verbosity": 2,
+        
+        "monitor": "off",
+        "early_stop": 3,
+
+        "tensorboard": true
+    }
+}
+
